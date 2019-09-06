@@ -1,0 +1,13 @@
+syntax= "proto2";
+// protoc --java_out=src/main/java src/proto/Student.proto
+package txx.protobuf;
+
+option optimize_for = SPEED;
+option java_package = "txx.netty_protobuf";
+option java_outer_classname = "MyDataInfo"; //可以自己定义外部类名字
+
+message Person{
+    required string name = 1;
+    optional int32 age = 2;
+    optional string address = 3;
+}
