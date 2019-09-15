@@ -13,6 +13,12 @@ public class GrpcServer {
                 .addService(new StudentServiceImpl())
                 .build().start();
         System.out.println("server start");
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("关闭jvm");
+            GrpcServer.this.stop();
+        }));
+        System.out.println("执行到这里");
     }
 
     private void stop(){
