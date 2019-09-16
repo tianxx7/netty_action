@@ -10,7 +10,7 @@ import io.netty.util.CharsetUtil;
 import java.nio.charset.Charset;
 
 /* *
- * 描述:
+ * 描述: http handler
  * @user tianxinxing
  * @date 2019/8/31
  */
