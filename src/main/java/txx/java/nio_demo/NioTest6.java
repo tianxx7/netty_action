@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 
 /**
  * bytebuffer 分片
+ * slice buffer与原有buffer共享相同的底层数组
  */
 public class NioTest6 {
     public static void main(String[] args) {
