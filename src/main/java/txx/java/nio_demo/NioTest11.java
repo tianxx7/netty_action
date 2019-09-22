@@ -13,6 +13,16 @@ import java.util.Set;
 
 /**
  * selector 概念
+ * 1.如果 监听的10300端口的ServerSocketChannel remove() 那么SelectedKeys中和keys()中是否还有该ServerSocketChannel
+ *  iterator.remove() 后会从selectedKeys()中移除,keys()不受影响,注册的感兴趣的事件越多,keys的集合就越大
+ * 2.如果客户端关闭,服务端的channel会怎样
+ *  没有处理关闭的话,下面示例代码会一直输出:
+ *     numbers:1
+ *     selectionKeys:[sun.nio.ch.SelectionKeyImpl@47c62251]
+ *     读取: 0, 来自于:java.nio.channels.SocketChannel[connected local=/192.168.1.214:10300 remote=/192.168.1.114:36030]
+ * 3.如何处理客户端关闭问题:
+ *  客户端关闭的话,还是会发生读事件,读取的是-1
+ *  判断是-1的话就socketChannel.close()
  *
  */
 public class NioTest11 {
@@ -67,9 +77,14 @@ public class NioTest11 {
                         ByteBuffer byteBuffer = ByteBuffer.allocate(512);
                         byteBuffer.clear();
                         int read = channel.read(byteBuffer);
+                        if (read == -1) {
+                            channel.close();
+                            break;
+                        }
                         if (read <= 0) {
                             break;
                         }
+
                         byteBuffer.flip();
                         channel.write(byteBuffer);
 
