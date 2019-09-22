@@ -47,18 +47,30 @@ public class NioServer {
                     final SocketChannel client;
 
                     try {
-                        if (selectionKey.isAcceptable()) {
+                        if (selectionKey.isValid()  && selectionKey.isAcceptable()) {
                             ServerSocketChannel server = (ServerSocketChannel) selectionKey.channel();
                             client = server.accept();
                             client.configureBlocking(false);
                             client.register(selector,SelectionKey.OP_READ);
 
                             String key = "[" + UUID.randomUUID().toString() + "]";
+                            //这里最好用ip+port来作为key
                             clientMap.put(key,client);
-                        } else if (selectionKey.isReadable()) {
+                        } else if (selectionKey.isValid() && selectionKey.isReadable()) {
                             client = (SocketChannel) selectionKey.channel();
                             ByteBuffer readBuffer = ByteBuffer.allocate(1024);
-                            int count = client.read(readBuffer);
+                            int count = 0;
+                            try {
+                                count = client.read(readBuffer);
+                            } catch (IOException e) {
+                                //cancel() 后 这个selectionKey 会添加到cancelledKeys集合中
+                                selectionKey.cancel();
+                                //下面两段 是否需要????
+                                client.socket().close();
+                                client.close();
+                                return;
+                            }
+
                             if (count == -1) {
                                 client.close();
                             }
