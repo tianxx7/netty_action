@@ -10,7 +10,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 
 
 /* *
- * 描述:
+ * 描述: netty 与proto
  * @user tianxinxing
  * @date 2019/9/6
  */
