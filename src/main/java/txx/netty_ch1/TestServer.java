@@ -7,7 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /* *
- * 描述: 服务端
+ * 描述: http的服务端
  * @user tianxinxing
  * @date 2019/8/31
  */

@@ -1,4 +1,6 @@
+import io.netty.util.NettyRuntime;
 import org.junit.Test;
+import sun.plugin2.util.SystemUtil;
 
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -20,7 +22,11 @@ public class ArrayTest {
         Integer[] arr = new Integer[3];
         Integer[] integers = list.toArray(arr);
         System.out.println();
+    }
 
-
+    @Test
+    public void threadNum() {
+        int max = Math.max(1, NettyRuntime.availableProcessors() * 2);
+        System.out.println(max);
     }
 }
